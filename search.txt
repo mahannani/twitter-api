@@ -1,0 +1,36 @@
+<?php
+include "twitteroauth/twitteroauth.php";
+
+$consumer_key = "GfUK9sFbjLT1uYOLGPON6GTZl";
+$consumer_secret = "zQyPBzcnhGwXduDj2zdii6q8nAVXAETdfVsuHqCoedvegOCAop";
+$access_token = "886480315681619971-aHzIkERwd5KqpRBpRBPn2k1e7cuSMqN";
+$access_token_secret = "G50mhkPJBvq8YKStUigbaEC0wN3OnHwG2lgbnL0uAeQLT";
+
+$twitter = new TwitterOauth($consumer_key,$consumer_secret,$access_token,$access_token_secret);
+
+$tweets = $twitter->get('https://api.twitter.com/1.1/search/tweets.json?q=save&result type=recent&count=20');
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+		<title>Twitter</title>
+</head>
+<body>
+	<form action="" method="post">
+		<label>Yuk Cari : <input type="text" name="nyari" placeholder=""/></label>
+	</form>
+	
+<?php
+if (isset($_POST['nyari'])){
+	$tweets = $twitter->get('https://api.twitter.com/1.1/search/tweets.json?q='.$_POST['nyari'].'&result_type=recent&count=50');
+foreach ($tweets as $tweet) {
+	foreach ($tweet as $t) {
+		echo '<img src="'.$t->user->profile_image_url.'"/> '.$t->text.'</br>.';
+		}
+	}}
+	?>
+	
+</body>
+</html>
